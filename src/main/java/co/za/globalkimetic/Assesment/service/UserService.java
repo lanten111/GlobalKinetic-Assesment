@@ -5,6 +5,7 @@ import co.za.globalkimetic.Assesment.dto.UserDTO;
 import co.za.globalkimetic.Assesment.dto.UserResponseDTO;
 import co.za.globalkimetic.Assesment.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,14 +17,16 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Transactional
     public void createUser(UserDTO userDTO){
         //create user
 
         //check if user with same user ame exists
-        User existingUser = userRepository.findUserByUserName(userDTO.getUserName());
-        if (existingUser != null){
-            throw new RuntimeException("User "+userDTO.getUserName()+ " Already exist, Choose another name");
+        if (userRepository.existsByUserName(userDTO.getUserName())){
+            throw new RuntimeException("User "+userDTO.getUserName()+ " already exist, Choose another name");
         }else {
             //if user with same username does not exist the continue to create one
             userRepository.save(transferUserData(userDTO));
@@ -47,7 +50,7 @@ public class UserService {
         //transfer user details from transfer object to user entity
         User user = new User();
         user.setUserName(userDTO.getUserName());
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setPhoneNumber(userDTO.getPhoneNumber());
         return user;
     }
