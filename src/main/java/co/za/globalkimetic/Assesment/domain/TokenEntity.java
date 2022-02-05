@@ -1,19 +1,18 @@
 package co.za.globalkimetic.Assesment.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class TokenEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "TOKEN", nullable = false, unique = true)
     private String token;
 
-    @Column(nullable = false, columnDefinition = "false")
+    @Column(name = "LOGEEDOUT", nullable = false)
     private boolean loggedOut;
 
     public Long getId() {

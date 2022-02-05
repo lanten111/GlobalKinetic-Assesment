@@ -1,6 +1,6 @@
 package co.za.globalkimetic.Assesment.controller;
 
-import co.za.globalkimetic.Assesment.dto.LogOutDTO;
+import co.za.globalkimetic.Assesment.dto.LogoutDTO;
 import co.za.globalkimetic.Assesment.dto.LoginDTO;
 import co.za.globalkimetic.Assesment.dto.LoginResponseDTO;
 import co.za.globalkimetic.Assesment.service.AuthenticationService;
@@ -16,7 +16,12 @@ public class AuthController {
     AuthenticationService authenticationService;
 
     @PostMapping(path = "/logout")
-    public void login(@RequestBody LogOutDTO logOutDTO){
-        authenticationService.logout(logOutDTO.getToken());
+    public void logout(@RequestBody LogoutDTO logoutDTO){
+        authenticationService.logout(logoutDTO.getToken());
+    }
+
+    @PostMapping(path = "/login")
+    public LoginResponseDTO login(@RequestBody LoginDTO loginDTO){
+        return authenticationService.login(loginDTO);
     }
 }
