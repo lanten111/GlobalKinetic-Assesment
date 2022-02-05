@@ -8,6 +8,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,10 +23,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static co.za.globalkimetic.Assesment.config.SecurityConstants.EXPIRATION_TIME;
-import static co.za.globalkimetic.Assesment.config.SecurityConstants.SECRET;
-
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    @Value("${jwt.secret }")
+    private String secret;
+
+    @Value("${jwt.expirationTime }")
+    private String expirationTime;
 
     private AuthenticationManager authenticationManager;
 
@@ -63,8 +67,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication auth) throws IOException {
         String token = JWT.create()
                 .withSubject(((User) auth.getPrincipal()).getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .sign(Algorithm.HMAC512(SECRET.getBytes()));
+                .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
+                .sign(Algorithm.HMAC512(secret.getBytes()));
 
         LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
         co.za.globalkimetic.Assesment.domain.User user = userRepository.findUserByUserName(((User)auth.getPrincipal()).getUsername());

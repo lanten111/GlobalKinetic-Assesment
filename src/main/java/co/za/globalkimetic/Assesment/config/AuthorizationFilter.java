@@ -4,6 +4,7 @@ import co.za.globalkimetic.Assesment.domain.User;
 import com.auth0.jwt.impl.JWTParser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,10 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.security.Key;
 
 import static org.springframework.boot.web.servlet.filter.ApplicationContextHeaderFilter.HEADER_NAME;
-import static co.za.globalkimetic.Assesment.config.SecurityConstants.SECRET;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -27,7 +26,11 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         super(authManager);
     }
 
-    JWTParser jwtParser;
+    @Value("${jwt.secret }")
+    private String secret;
+
+    @Value("${jwt.headerString }")
+    private String headerString;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -50,7 +53,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(HEADER_NAME);
         if (token != null) {
             Claims claims = Jwts.parser()
-                    .setSigningKey(SECRET)
+                    .setSigningKey(secret)
                     .parseClaimsJws(token)
                     .getBody();
             User user = new User();
