@@ -1,6 +1,7 @@
 package co.za.globalkimetic.Assesment.config;
 
 import co.za.globalkimetic.Assesment.domain.User;
+import co.za.globalkimetic.Assesment.repository.TokenRepository;
 import co.za.globalkimetic.Assesment.repository.UserRepository;
 import co.za.globalkimetic.Assesment.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserRepository userRepository;
 
     @Autowired
+    private TokenRepository tokenRepository;
+
+    @Autowired
     UserDetailsService userDetailsService;
 
     @Autowired
@@ -38,10 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeHttpRequests()
                 .antMatchers("/api/login/**").permitAll()
                 .and()
-                .addFilter(new AuthorizationFilter(authenticationManager()))
+                .addFilter(new AuthorizationFilter(authenticationManager(), tokenRepository))
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), userRepository));
-
-//            http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         }
 
     @Override

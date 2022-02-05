@@ -1,12 +1,17 @@
 package co.za.globalkimetic.Assesment.config;
 
+import co.za.globalkimetic.Assesment.domain.TokenEntity;
 import co.za.globalkimetic.Assesment.domain.User;
+import co.za.globalkimetic.Assesment.repository.TokenRepository;
 import com.auth0.jwt.impl.JWTParser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -22,22 +27,19 @@ import static org.springframework.boot.web.servlet.filter.ApplicationContextHead
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
-    public AuthorizationFilter(AuthenticationManager authManager) {
+    @Autowired
+    TokenRepository tokenRepository;
+
+    public AuthorizationFilter(AuthenticationManager authManager, TokenRepository tokenRepository) {
         super(authManager);
+        this.tokenRepository = tokenRepository;
     }
-
-    @Value("${jwt.secret }")
-    private String secret;
-
-    @Value("${jwt.headerString }")
-    private String headerString;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
         String header = request.getHeader(HEADER_NAME);
-
         if (header == null) {
             chain.doFilter(request, response);
             return;
@@ -51,9 +53,14 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 
     private UsernamePasswordAuthenticationToken authenticate(HttpServletRequest request) {
         String token = request.getHeader(HEADER_NAME);
+        TokenEntity tokenEntity = tokenRepository.findByToken(token);
+        if (tokenEntity.isLoggedOut()){
+            throw new AuthorizationServiceException("user already logged, please login again");
+        }
+
         if (token != null) {
             Claims claims = Jwts.parser()
-                    .setSigningKey(secret)
+                    .setSigningKey(ConstantKeys.SECRET)
                     .parseClaimsJws(token)
                     .getBody();
             User user = new User();
