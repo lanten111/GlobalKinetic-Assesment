@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.*;
 
 @RestController
@@ -20,7 +22,7 @@ public class UserController {
     //create new user
     @PutMapping(path = "/users")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO){
          return ResponseEntity.ok(userService.createUser(userDTO));
     }
 

@@ -1,6 +1,7 @@
 package co.za.globalkimetic.Assesment.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class User {
@@ -9,13 +10,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "USERNAME", nullable = false, unique = true)
+    @NotEmpty(message = "name cannot be empty")
+    @Column( nullable = false, unique = true)
     private String username;
 
-    @Column(name = "PHONE_NUMBER", nullable = false)
+    @NotEmpty(message = "phone number cannot be empty")
+    @Column( nullable = false)
     private String phoneNumber;
 
-    @Column(name = "PASSWORD", nullable = false)
+    @NotEmpty(message = "password cannot be empty")
+    @Column( nullable = false)
     private String password;
 
     public Long getId() {

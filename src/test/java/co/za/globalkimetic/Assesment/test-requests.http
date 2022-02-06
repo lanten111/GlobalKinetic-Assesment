@@ -5,8 +5,8 @@ PUT http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-    "username" : "batman",
-    "password" : "123",
+    "username" : "",
+    "password" : "",
     "phoneNumber" : "0123456789"
 }
 

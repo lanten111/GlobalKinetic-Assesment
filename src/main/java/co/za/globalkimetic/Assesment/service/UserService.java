@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.ValidationException;
 import java.util.*;
 
 @Service
@@ -26,7 +27,7 @@ public class UserService {
 
         //check if user with same user ame exists
         if (userRepository.existsByUsername(userDTO.getUsername())){
-            throw new RuntimeException("User "+userDTO.getUsername()+ " already exist, Choose another name");
+            throw new ValidationException("User "+userDTO.getUsername()+ " already exist, Choose another name");
         }else {
             //if user with same username does not exist to continue to create one
             userRepository.save(transferUserData(userDTO));
@@ -51,6 +52,10 @@ public class UserService {
         //transfer user details from transfer object to user entity
         User user = new User();
         user.setUsername(userDTO.getUsername());
+        //validate password before encryption
+        if (userDTO.getPassword() == null || userDTO.getPassword().isEmpty()){
+            throw new ValidationException("Password cannot be empty");
+        }
         //encrypt password
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setPhoneNumber(userDTO.getPhoneNumber());
