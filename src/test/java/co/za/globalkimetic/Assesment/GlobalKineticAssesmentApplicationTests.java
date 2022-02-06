@@ -9,13 +9,10 @@ import co.za.globalkimetic.Assesment.dto.UserResponseDTO;
 import co.za.globalkimetic.Assesment.repository.UserRepository;
 import co.za.globalkimetic.Assesment.service.AuthenticationService;
 import co.za.globalkimetic.Assesment.service.UserService;
-import com.google.gson.Gson;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
-import java.util.*;
 
 @SpringBootTest
 class GlobalKineticAssesmentApplicationTests {

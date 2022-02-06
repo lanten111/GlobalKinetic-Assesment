@@ -26,9 +26,7 @@ public class JwtUtil {
 
 
     public String createToken(String username){
-        Long now = System.currentTimeMillis();
-        System.out.println("token start at "+new Date(now));
-        System.out.println("expire at1 "+new Date(now + Long.parseLong(expirationTime)));
+        long now = System.currentTimeMillis();
         return  JWT.create()
                 .withSubject(username)
                 .withIssuedAt(new Date(now))

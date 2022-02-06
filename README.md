@@ -89,7 +89,7 @@ User management application
 - Tests -- see 4
 - Invalid Token Entity
 - Return json for user list, does not have the attribute "users"
-- Create user endpoint will return use username as response on success
+- list user endpoint will return user username as response on success
 
 6. # Tech used
 - Gradle
