@@ -12,7 +12,6 @@ public class InvalidToken {
     @Column(nullable = false, unique = true)
     private String token;
 
-
     public Long getId() {
         return id;
     }

@@ -1,7 +1,5 @@
 package co.za.globalkimetic.Assesment.domain;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 
 @Entity
@@ -12,7 +10,7 @@ public class User {
     private Long id;
 
     @Column(name = "USERNAME", nullable = false, unique = true)
-    private String userName;
+    private String username;
 
     @Column(name = "PHONE_NUMBER", nullable = false)
     private String phoneNumber;
@@ -28,12 +26,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public String getPhoneNumber() {

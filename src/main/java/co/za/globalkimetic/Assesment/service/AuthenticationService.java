@@ -30,6 +30,7 @@ public class AuthenticationService {
 
     @Transactional
     public void logout(String token){
+        //add loggedout token into invalid token table
         if (invalidTokenRepository.existsByToken(token) ){
             throw new RuntimeException("already logged out");
         } else {
@@ -40,7 +41,9 @@ public class AuthenticationService {
     }
 
     public LoginResponseDTO login(LoginDTO loginDTO){
+        //login with username and password
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
+        //create login response on succesfull authentication
         LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
         loginResponseDTO.setId(userRepository.findUserByUserName(loginDTO.getUsername()).getId());
         loginResponseDTO.setToken(jwtUtil.createToken(loginDTO.getUsername()));

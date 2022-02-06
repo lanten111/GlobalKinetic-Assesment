@@ -15,12 +15,14 @@ public class AuthController {
     @Autowired
     AuthenticationService authenticationService;
 
+    //logout controller user using token
     @PostMapping(path = "/logout/{token}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void logout(@PathVariable String token){
         authenticationService.logout(token);
     }
 
+    //login controller with password and username
     @PostMapping(path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public LoginResponseDTO login(@RequestBody LoginDTO loginDTO){
         return authenticationService.login(loginDTO);

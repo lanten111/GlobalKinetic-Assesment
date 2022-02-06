@@ -12,6 +12,7 @@ import static java.util.Collections.emptyList;
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
+    //load user and password from the database to compare with supplied cred
     @Autowired
     UserRepository userRepository;
 
@@ -22,6 +23,6 @@ public class UserDetailsService implements org.springframework.security.core.use
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new User(user.getUserName(), user.getPassword(), emptyList());
+        return new User(user.getUsername(), user.getPassword(), emptyList());
     }
 }

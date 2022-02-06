@@ -49,7 +49,7 @@ public class UserService {
     private User transferUserData(UserDTO userDTO){
         //transfer user details from transfer object to user entity
         User user = new User();
-        user.setUserName(userDTO.getUserName());
+        user.setUsername(userDTO.getUserName());
         //encrypt password
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setPhoneNumber(userDTO.getPhoneNumber());

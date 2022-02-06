@@ -16,12 +16,14 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    //create new user
     @PutMapping(path = "/users")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void createUser(@RequestBody UserDTO userDTO){
          userService.createUser(userDTO);
     }
 
+    //get all registered users
     @GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserResponseDTO> getUsers(){
        return userService.getUsers();
