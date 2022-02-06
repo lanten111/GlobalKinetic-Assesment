@@ -1,0 +1,30 @@
+
+
+//Create user
+PUT http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+    "username" : "batman",
+    "password" : "123",
+    "phoneNumber" : "0123456789"
+}
+
+###Login
+POST http://localhost:8080/api/login
+Content-Type: application/json
+
+{
+  "username" : "batman",
+  "password" : "123"
+}
+
+###Get all users registerd
+GET http://localhost:8080/api/users
+Authorization: Bearer {{token}}
+
+
+###Logout users
+POST http://localhost:8080/api/logout/{{token}}
+
+
