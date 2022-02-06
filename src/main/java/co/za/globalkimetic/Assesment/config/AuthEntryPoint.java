@@ -15,7 +15,7 @@ import java.io.IOException;
 @Component
 public class AuthEntryPoint implements AuthenticationEntryPoint {
 
-  //throw unauthorized error
+  //throw unauthorized error on no authentication
   private static final Logger logger = LoggerFactory.getLogger(AuthEntryPoint.class);
 
   @Override

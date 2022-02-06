@@ -25,6 +25,7 @@ public class JwtUtil {
     String prefix;
 
 
+    //generate new token
     public String createToken(String username){
         long now = System.currentTimeMillis();
         return  JWT.create()
@@ -34,20 +35,23 @@ public class JwtUtil {
                 .sign(Algorithm.HMAC512(secret.getBytes()));
     }
 
+    //get data from he token
     public Claims getClaims(String token){
         String token1 = token.replace(prefix, "");
         return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token1).getBody();
     }
 
-
+    //check if token has expired
     public boolean isTokenExpired(String token) {
         return getExpirationDate(token).before(getIssuedDate(token));
     }
 
+    //check username in the token
     public boolean isValidToken(String token,String username) {
         String tokenUserName=getSubject(token);
         return (username.equals(tokenUserName) && !isTokenExpired(token));
     }
+
 
     public Date getExpirationDate(String token) {
         return getClaims(token).getExpiration();
