@@ -6,6 +6,7 @@ import co.za.globalkimetic.Assesment.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -19,14 +20,14 @@ public class UserController {
     //create new user
     @PutMapping(path = "/users")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void createUser(@RequestBody UserDTO userDTO){
-         userService.createUser(userDTO);
+    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO){
+         return ResponseEntity.ok(userService.createUser(userDTO));
     }
 
     //get all registered users
     @GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<UserResponseDTO> getUsers(){
-       return userService.getUsers();
+    public ResponseEntity<?> getUsers(){
+       return ResponseEntity.ok(userService.getUsers());
     }
 
 }

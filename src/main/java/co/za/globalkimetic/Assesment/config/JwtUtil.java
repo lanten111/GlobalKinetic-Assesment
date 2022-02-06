@@ -26,10 +26,13 @@ public class JwtUtil {
 
 
     public String createToken(String username){
+        Long now = System.currentTimeMillis();
+        System.out.println("token start at "+new Date(now));
+        System.out.println("expire at1 "+new Date(now + Long.parseLong(expirationTime)));
         return  JWT.create()
                 .withSubject(username)
-                .withIssuedAt(new Date(System.currentTimeMillis()))
-                .withExpiresAt(new Date(System.currentTimeMillis() + 100000L ))
+                .withIssuedAt(new Date(now))
+                .withExpiresAt(new Date(now + Long.parseLong(expirationTime)))
                 .sign(Algorithm.HMAC512(secret.getBytes()));
     }
 
@@ -40,7 +43,7 @@ public class JwtUtil {
 
 
     public boolean isTokenExpired(String token) {
-        return getExpirationDate(token).before(new Date(System.currentTimeMillis()));
+        return getExpirationDate(token).before(getIssuedDate(token));
     }
 
     public boolean isValidToken(String token,String username) {
@@ -50,6 +53,10 @@ public class JwtUtil {
 
     public Date getExpirationDate(String token) {
         return getClaims(token).getExpiration();
+    }
+
+    public Date getIssuedDate(String token) {
+        return getClaims(token).getIssuedAt();
     }
 
     public String getSubject(String token) {

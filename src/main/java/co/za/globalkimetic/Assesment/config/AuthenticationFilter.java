@@ -1,6 +1,5 @@
 package co.za.globalkimetic.Assesment.config;
 
-import co.za.globalkimetic.Assesment.domain.InvalidToken;
 import co.za.globalkimetic.Assesment.repository.InvalidTokenRepository;
 import co.za.globalkimetic.Assesment.service.UserDetailsService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JWTAuthenticationFilter extends OncePerRequestFilter {
+public class AuthenticationFilter extends OncePerRequestFilter {
 
     private AuthenticationManager authenticationManager;
 
@@ -27,7 +26,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     UserDetailsService userDetailsService;
 
 
-    public JWTAuthenticationFilter(InvalidTokenRepository invalidTokenRepository, JwtUtil jwtUtil, UserDetailsService userDetailsService){
+    public AuthenticationFilter(InvalidTokenRepository invalidTokenRepository, JwtUtil jwtUtil, UserDetailsService userDetailsService){
         this.jwtUtil = jwtUtil;
         this.invalidTokenRepository = invalidTokenRepository;
         this.userDetailsService = userDetailsService;
@@ -45,7 +44,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             if( token != null ){
                 //check if token exist in loggedout tokens repository
                 if (invalidTokenRepository.existsByToken(token.replace(jwtUtil.prefix+" ", ""))){
-                        SecurityContextHolder.getContext().setAuthentication(null);
+                    SecurityContextHolder.getContext().setAuthentication(null);
                 } else {
                     try {
                         String username= jwtUtil.getSubject(token);

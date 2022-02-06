@@ -21,16 +21,17 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void createUser(UserDTO userDTO){
+    public String createUser(UserDTO userDTO){
         //create user
 
         //check if user with same user ame exists
-        if (userRepository.existsByUserName(userDTO.getUserName())){
-            throw new RuntimeException("User "+userDTO.getUserName()+ " already exist, Choose another name");
+        if (userRepository.existsByUsername(userDTO.getUsername())){
+            throw new RuntimeException("User "+userDTO.getUsername()+ " already exist, Choose another name");
         }else {
-            //if user with same username does not exist the continue to create one
+            //if user with same username does not exist to continue to create one
             userRepository.save(transferUserData(userDTO));
         }
+        return "user "+userDTO.getUsername() + " created successfully";
     }
 
     //get all users in a list
@@ -49,7 +50,7 @@ public class UserService {
     private User transferUserData(UserDTO userDTO){
         //transfer user details from transfer object to user entity
         User user = new User();
-        user.setUsername(userDTO.getUserName());
+        user.setUsername(userDTO.getUsername());
         //encrypt password
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setPhoneNumber(userDTO.getPhoneNumber());
@@ -57,7 +58,7 @@ public class UserService {
     }
 
     private UserResponseDTO transferUserData(User user){
-        //transfer user details from transfer object to user entity
+        //transfer user entity from transfer object to user response object
         UserResponseDTO userResponseDTO = new UserResponseDTO();
         userResponseDTO.setUserId(user.getId());
         userResponseDTO.setPhoneNumber(user.getPhoneNumber());

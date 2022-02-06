@@ -9,6 +9,8 @@ import co.za.globalkimetic.Assesment.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -42,10 +44,11 @@ public class AuthenticationService {
 
     public LoginResponseDTO login(LoginDTO loginDTO){
         //login with username and password
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         //create login response on succesfull authentication
         LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
-        loginResponseDTO.setId(userRepository.findUserByUserName(loginDTO.getUsername()).getId());
+        loginResponseDTO.setId(userRepository.findUserByUsername(loginDTO.getUsername()).getId());
         loginResponseDTO.setToken(jwtUtil.createToken(loginDTO.getUsername()));
         return loginResponseDTO;
     }

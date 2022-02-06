@@ -19,9 +19,9 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        co.za.globalkimetic.Assesment.domain.User user = userRepository.findUserByUserName(username);
+        co.za.globalkimetic.Assesment.domain.User user = userRepository.findUserByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException("user "+username+" not found");
         }
         return new User(user.getUsername(), user.getPassword(), emptyList());
     }
