@@ -13,7 +13,8 @@ User management application
   }
   ````
   - Response
-    ````
+
+  ````
     {{username}} created succesfully
    ````
 
