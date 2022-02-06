@@ -57,7 +57,7 @@ User management application
   204
   ````
 
-# 2. LOGOUT MECHANISM
+2. # LOGOUT MECHANISM
 
 - jWT does not support invalidation of the token, unless the toke time has expired, it will stay alive.
 - a way to logout users, would be to delete the token from users browser
@@ -65,32 +65,33 @@ User management application
 - improvised with adding an entity with blacklisted tokens,
   if the token exist in that table. then user will be unauthorized.
 
-#3. How to Run the project
+3. # How to Run the project
 
- - TO run the project build it first with ./gradlew build on unix or just gradlew build on Windows
+ - To run the project, build it first with ./gradlew build on unix or just gradlew build on Windows
    the build will run the test and grab all dependencies
- - to run the project use ./gradle bootrun / gradlew bootrun, 
+ - to run the project use ./gradlew bootrun or gradlew bootrun, 
    - The app will start up with embedded database 
    - To test, use the above endpoints
-   - Client will be Postman, to make thing easy, if you are on Intellij, there is test-requests.http file with all endpoint and data ready
+   - Client will be Postman, to make thing easy, if you are on Intellij, there is _test-requests.http_ file with all endpoint and data ready
  - the project will start on port 8080 unless changed on property file
  - the application context root will be `/api `unless changed
+ - full context path `localhost:8080/api/`
 
 
-#4. Test 
+4. # Test 
 - There are test that wil run when the application build, the test will pull the whole application context with database
   - Test user create service
   - test get user list service
   - test token generation service and login
   - test token validation service
 
-#5. Added stuff / Changed from assessment
+5. # Added stuff / Changed from assessment
 - Tests -- see 4
 - Invalid Token Entity
 - Return json for user list, does not have the attribute "users"
 - Create user endpoint will return use username as response on success
 
-#6. Tech used
+6. # Tech used
 - Gradle
 - Springboot
 - GitHub
