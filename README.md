@@ -1,9 +1,9 @@
 # GlobalKinetic-Assesment
 User management application
 
-#1.  End points
+1. # End points
 
-- #### PUT `api/users` - Create new user, not authenticationr required
+- #### PUT `api/users` - Create new user, not authentication required
     - request
   ````
   { 
@@ -14,7 +14,7 @@ User management application
   ````
   -Response
     ````
-    {{username}} create succesfully
+    {{username}} created succesfully
    ````
 
 
@@ -46,7 +46,7 @@ User management application
     "token": "token"
   }
 
-- #### POST - `api/logout/{token}` logs out using token, uses path variable to pass token thats loggin out
+- #### POST - `api/logout/{token}` logs out using token, uses path variable to pass token that will be invalidated
     Notes -- unspecified whether to use request body or path variable, went with path variable
   - path variable
   ```
@@ -63,18 +63,18 @@ User management application
 - a way to logout users, would be to delete the token from users browser
  but still no way to do that on server side. to let the server know that the token is invalid, 
 - improvised with adding an entity with blacklisted tokens,
-  if the token exist in that table. then user will be unauthorized.
+  if the token exist in that table. then the user who attempt to send request with the token will be unauthorized.
 
 3. # How to Run the project
 
- - To run the project, build it first with ./gradlew build on unix or just gradlew build on Windows
+ - To run the project, build it first with `./gradlew build` on unix or just `gradlew build` on Windows
    the build will run the test and grab all dependencies
- - to run the project use ./gradlew bootrun or gradlew bootrun, 
+ - to run the project use `./gradlew bootrun` or `gradlew bootrun`, 
    - The app will start up with embedded database 
    - To test, use the above endpoints
-   - Client will be Postman, to make thing easy, if you are on Intellij, there is _test-requests.http_ file with all endpoint and data ready
+   - Client will be Postman,no front end to make things easy, if you are on Intellij, there is `test-requests.http` file under `test/java/co.za.globalkimetic.Assesment` with all endpoint and data ready
  - the project will start on port 8080 unless changed on property file
- - the application context root will be `/api `unless changed
+ - the application context root will be `/api `unless changed on property file
  - full context path `localhost:8080/api/`
 
 
@@ -88,7 +88,7 @@ User management application
 5. # Added stuff / Changed from assessment
 - Tests -- see 4
 - Invalid Token Entity
-- Return json for user list, does not have the attribute "users"
+- Returned json for user list does not have the attribute "users"
 - list user endpoint will return user username as response on success
 
 6. # Tech used
