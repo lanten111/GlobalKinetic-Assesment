@@ -1,13 +1,12 @@
 package co.za.globalkimetic.Assesment.service;
 
 import co.za.globalkimetic.Assesment.config.JwtUtil;
-import co.za.globalkimetic.Assesment.domain.TokenEntity;
+import co.za.globalkimetic.Assesment.domain.InvalidToken;
 import co.za.globalkimetic.Assesment.dto.LoginDTO;
 import co.za.globalkimetic.Assesment.dto.LoginResponseDTO;
-import co.za.globalkimetic.Assesment.repository.TokenRepository;
+import co.za.globalkimetic.Assesment.repository.InvalidTokenRepository;
 import co.za.globalkimetic.Assesment.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class AuthenticationService {
     UserRepository userRepository;
 
     @Autowired
-    TokenRepository tokenRepository;
+    InvalidTokenRepository invalidTokenRepository;
 
     @Autowired
     JwtUtil jwtUtil;
@@ -31,13 +30,12 @@ public class AuthenticationService {
 
     @Transactional
     public void logout(String token){
-        if (tokenRepository.existsByToken(token) ){
+        if (invalidTokenRepository.existsByToken(token) ){
             throw new RuntimeException("already logged out");
         } else {
-            TokenEntity tokenEntity = new TokenEntity();
-            tokenEntity.setToken(token);
-            tokenEntity.setLoggedOut(true);
-            tokenRepository.save(tokenEntity);
+            InvalidToken invalidToken = new InvalidToken();
+            invalidToken.setToken(token);
+            invalidTokenRepository.save(invalidToken);
         }
     }
 

@@ -5,9 +5,9 @@ import co.za.globalkimetic.Assesment.dto.LoginDTO;
 import co.za.globalkimetic.Assesment.dto.LoginResponseDTO;
 import co.za.globalkimetic.Assesment.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthController {
@@ -15,12 +15,13 @@ public class AuthController {
     @Autowired
     AuthenticationService authenticationService;
 
-    @PostMapping(path = "/logout")
-    public void logout(@RequestBody LogoutDTO logoutDTO){
-        authenticationService.logout(logoutDTO.getToken());
+    @PostMapping(path = "/logout/{token}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void logout(@PathVariable String token){
+        authenticationService.logout(token);
     }
 
-    @PostMapping(path = "/login")
+    @PostMapping(path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public LoginResponseDTO login(@RequestBody LoginDTO loginDTO){
         return authenticationService.login(loginDTO);
     }

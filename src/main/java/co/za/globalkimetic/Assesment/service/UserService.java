@@ -50,6 +50,7 @@ public class UserService {
         //transfer user details from transfer object to user entity
         User user = new User();
         user.setUserName(userDTO.getUserName());
+        //encrypt password
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setPhoneNumber(userDTO.getPhoneNumber());
         return user;
@@ -58,8 +59,9 @@ public class UserService {
     private UserResponseDTO transferUserData(User user){
         //transfer user details from transfer object to user entity
         UserResponseDTO userResponseDTO = new UserResponseDTO();
-        userResponseDTO.setUserName(user.getUserName());
+        userResponseDTO.setUserId(user.getId());
         userResponseDTO.setPhoneNumber(user.getPhoneNumber());
         return userResponseDTO;
     }
+
 }

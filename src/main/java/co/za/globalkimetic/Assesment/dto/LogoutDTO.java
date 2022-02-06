@@ -1,6 +1,6 @@
 package co.za.globalkimetic.Assesment.dto;
 
-public class LogOutDTO {
+public class LogoutDTO {
 
     private String token;
 

@@ -2,15 +2,15 @@ package co.za.globalkimetic.Assesment.dto;
 
 public class UserResponseDTO {
 
-    private String userName;
+    private Long userId;
     private String phoneNumber;
 
-    public String getUserName() {
-        return userName;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getPhoneNumber() {

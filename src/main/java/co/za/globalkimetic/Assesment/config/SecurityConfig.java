@@ -1,6 +1,6 @@
 package co.za.globalkimetic.Assesment.config;
 
-import co.za.globalkimetic.Assesment.repository.TokenRepository;
+import co.za.globalkimetic.Assesment.repository.InvalidTokenRepository;
 import co.za.globalkimetic.Assesment.repository.UserRepository;
 import co.za.globalkimetic.Assesment.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -20,16 +21,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TokenRepository tokenRepository;
+    private InvalidTokenRepository invalidTokenRepository;
 
     @Autowired
     UserDetailsService userDetailsService;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
     @Autowired
     JwtUtil jwtUtil;
@@ -37,7 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -53,8 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.PUT,  "/users").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/logout/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JWTAuthenticationFilter(userRepository,jwtUtil, userDetailsService ), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JWTAuthenticationFilter(invalidTokenRepository,jwtUtil, userDetailsService ), UsernamePasswordAuthenticationFilter.class);
         }
 }
