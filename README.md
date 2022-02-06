@@ -12,7 +12,7 @@ User management application
   "password" : "user_password"
   }
   ````
-  -Response
+  - Response
     ````
     {{username}} created succesfully
    ````

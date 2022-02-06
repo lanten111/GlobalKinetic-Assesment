@@ -1,14 +1,11 @@
 package co.za.globalkimetic.Assesment.controller;
 
-import co.za.globalkimetic.Assesment.dto.LogoutDTO;
 import co.za.globalkimetic.Assesment.dto.LoginDTO;
-import co.za.globalkimetic.Assesment.dto.LoginResponseDTO;
 import co.za.globalkimetic.Assesment.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,4 +28,5 @@ public class AuthController {
         ResponseEntity.ok();
             return ResponseEntity.ok(authenticationService.login(loginDTO));
     }
+
 }
